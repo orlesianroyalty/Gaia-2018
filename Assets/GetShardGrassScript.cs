@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class GetShardGrassScript : MonoBehaviour {
 
+    private PlayerStats stats;
+
 	// Use this for initialization
 	void Start () {
-		
+        stats = GameObject.Find("Player").GetComponent<PlayerStats>();
 	}
 	
 	// Update is called once per frame
@@ -16,8 +18,10 @@ public class GetShardGrassScript : MonoBehaviour {
 
 	void OnCollisionEnter (Collision col) {
 		if (col.gameObject.tag == "Player") {
-			col.gameObject.GetComponent<PlayerStats> ().getGrassShard ();
+            stats.grassShardFound();
 			Destroy (gameObject);
 		}
+        
 	}
 }
+    

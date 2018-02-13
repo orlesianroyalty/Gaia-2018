@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class GetShardFireScript : MonoBehaviour {
 
+    private PlayerStats stats;
+
 	// Use this for initialization
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        stats = GameObject.Find("Player").GetComponent<PlayerStats>();
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
 	void OnCollisionEnter (Collision col) {
 		if (col.gameObject.tag == "Player") {
-			col.gameObject.GetComponent<PlayerStats> ().getFireShard ();
+            stats.fireShardFound();
 			Destroy (gameObject);
 		}
 	}

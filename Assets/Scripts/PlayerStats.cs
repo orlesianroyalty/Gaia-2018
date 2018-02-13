@@ -11,6 +11,10 @@ public class PlayerStats : MonoBehaviour {
 	public float maxStamina;
 	public float stamina;
 
+    public int grassShardsCollected;
+    public int fireShardsCollected;
+    public int iceShardsCollected;
+
 	public bool stunned = false;
 
 	public float criticalDamageFactor = 1.3f;
@@ -19,9 +23,9 @@ public class PlayerStats : MonoBehaviour {
 	private Slider healthbar;
 	private Slider staminabar;
 
-	public bool foundGrassShard = false;
-	public bool foundFireShard = false;
-	public bool foundIceShard = false;
+	public bool foundGrassJem = false;
+	public bool foundFireJem = false;
+	public bool foundIceJem = false;
 
 	public int baseDashDamage = 25;
 
@@ -35,6 +39,10 @@ public class PlayerStats : MonoBehaviour {
 		InvokeRepeating ("regenTimer", 0f, .5f);
 		//updateStaminaUI ();
 		scenename = SceneManager.GetActiveScene().name;
+
+        grassShardsCollected = 0;
+        fireShardsCollected = 0;
+        iceShardsCollected = 0;
 	}
 
 	void Update() {
@@ -121,23 +129,46 @@ public class PlayerStats : MonoBehaviour {
 		return true;
 	}
 
-	public void getGrassShard() {
-		foundGrassShard = true;
-		GameObject.Find ("GreenShardDisplay").GetComponent<Image> ().enabled = true;
+    public void grassShardFound() {
+        grassShardsCollected++;
+        unlockGrassJem();
+    }
+
+    public void fireShardFound()
+    {
+        fireShardsCollected++;
+        unlockFireJem();
+    }
+
+    public void iceShardFound()
+    {
+        iceShardsCollected++;
+        unlockIceJem();
+    }
+    public void unlockGrassJem() {
+        if (grassShardsCollected >= 50) {
+            foundGrassJem = true;
+            GameObject.Find("GreenShardDisplay").GetComponent<Image>().enabled = true;
+        }
+		
 	}
 
-	public void getFireShard() {
-		foundFireShard = true;
-		GameObject.Find ("RedShardDisplay").GetComponent<Image> ().enabled = true;
+	public void unlockFireJem() {
+        if (fireShardsCollected >= 75)
+        {
+            foundFireJem = true;
+            GameObject.Find("RedShardDisplay").GetComponent<Image>().enabled = true;
+        }
 	}
 
-	public void getIceShard() {
-		foundIceShard = true;
+	public void unlockIceJem() {
+        if (iceShardsCollected >= 100)
+		foundIceJem = true;
 		GameObject.Find ("IceShardDisplay").GetComponent<Image> ().enabled = true;
 	}
 
 	public void changeElementalTypeToGrass () {
-		if (foundGrassShard) {
+		if (foundGrassJem) {
 			elementalType = "GRASS";
 //			Sprite spr = Resources.Load<Sprite> ("ArcticShoe");
 //			SpriteRenderer rend = GameObject.Find ("Torso").GetComponent<SpriteRenderer> ();
@@ -147,7 +178,7 @@ public class PlayerStats : MonoBehaviour {
 	}
 
 	public void changeElementalTypeToFire () {
-		if (foundFireShard) {
+		if (foundFireJem) {
 			elementalType = "FIRE";
 			//Sprite spr = Resources.Load<Sprite> ("ArcticShoe");
 //			Sprite spr = Resources.Load("ArcticShoe", typeof(Sprite)) as Sprite;
@@ -159,7 +190,7 @@ public class PlayerStats : MonoBehaviour {
 	}
 
 	public void changeElementalTypeToIce () {
-		if (foundIceShard) {
+		if (foundIceJem) {
 			elementalType = "ICE";
 //			Sprite spr = Resources.Load<Sprite> ("ArcticShoe");
 //			SpriteRenderer rend = GameObject.Find ("Torso").GetComponent<SpriteRenderer> ();
