@@ -62,6 +62,9 @@ public class PlayerMovement : MonoBehaviour {
 			ani.SetBool ("isOnGround", true);
 			movementLocked = false;
 		}
+		if (col.gameObject.tag == "Water") {
+			transform.Translate (0, 0.95f, 0);
+		}
 	}
 
 	void OnCollisionExit(Collision col) {
