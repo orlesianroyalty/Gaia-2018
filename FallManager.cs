@@ -10,45 +10,83 @@ public class FallManager : MonoBehaviour {
 	public GameObject fallingThing; 
 	public GameObject player; 
 	public Camera cam; 
-	private float randomTime, time, randomX, playerZ, playerX;  
-	private Vector3 original, viewPoint, teleportHere; 
-	 
 
-	// Update is called once per frame
+	private float randomTime, time, randomX, playerY; 
+	private Vector3 original, viewPoint, teleportHere; 
+		
 	void Start() { 
 		StartCoroutine(Fall ()); 
 
 	} 		
 
-	public IEnumerator Fall() { 
+	/* central method, makes objects fall at somewhat random coordinates (near player)
+	 * If you want objects to fall from a different height, edit the number being added to playerY = ..
+	 * If you want objects to fall at greater gaps of time or smaller, edit createRandomTime (...); 	
+	 * and/or randomTime += @ line 52
+	 * If you want objects to fall at a greater or smaller possible range from player, edit randomX = .. under the 
+	 * fallingCoordinate() method. 
+	 * */
+	public IEnumerator Fall() {
 		while (true) { 
-			//starting point of player
-			playerZ = player.transform.position.z; 
-			playerX = player.transform.position.x; 
-			original = new Vector3 (playerX, 20, playerZ);
+			if (blocked ()) { 
+				playerY = player.transform.position.y + 4.5f;
+			} else { 				
+				playerY = player.transform.position.y + 9; 
+			} 	
 
-			viewPoint = cam.WorldToViewportPoint (original);
-			Random.seed = System.DateTime.Now.Millisecond; //required, else same value keeps getting picked
-			randomX =  Random.Range (-0.5f, 1.5f);
-			viewPoint = new Vector3 (randomX, viewPoint.y, viewPoint.z); 
-
-			teleportHere = cam.ViewportToWorldPoint (viewPoint); 
-			teleportHere = new Vector3 (teleportHere.x, 40, teleportHere.z);
-
+			teleportHere = fallingCoordinate (playerY);
 			Instantiate (fallingThing, teleportHere, Quaternion.identity);
-			time = createRandomTime (); 
-			print ("next one will fall in" + time); 
+			time = createRandomTime (0f, 2f); 
+			//print ("next one will fall in" + time); */
 			yield return new WaitForSeconds (time); 
+			}
+
+	}  
+
+
+	//creates the waiting time for the falling object
+	public float createRandomTime(float bound1, float bound2) { 
+
+		Random.seed = System.DateTime.Now.Millisecond; //required, else same value keeps getting picked
+		randomTime =  Random.Range (bound1, bound2);
+		randomTime += 0.3f;
+		return randomTime; 
+	} 
+
+
+	//checks if an object, ex: platform, exists aboev player that would
+	//block a falling object
+	public bool blocked() { 
+		if (Physics.Raycast (player.transform.position, Vector3.up, 9)) { 
+			//print ("Platform exists above player");
+			return true; 
+		} else { 
+			return false; 
 		} 
 	} 
 
-	//creates the waiting time for the falling object
-	public float createRandomTime() { 
+
+	/*Returns random coordinate where falling object will be instantiated
+	 * 
+	 * */
+	public Vector3 fallingCoordinate(float yValue) { 
+		Vector3 coordinate = new Vector3 (); 
+
+		original = new Vector3 (player.transform.position.x, yValue, 
+			player.transform.position.z);
+		viewPoint = cam.WorldToViewportPoint (original);
 
 		Random.seed = System.DateTime.Now.Millisecond; //required, else same value keeps getting picked
-		randomTime =  Random.Range (0f, 5.1f);
-		randomTime = randomTime + 1.25f;
-		return randomTime; 
+		randomX =  Random.Range (0.1f, 0.9f);
+		viewPoint = new Vector3 (randomX, viewPoint.y, viewPoint.z); 
+
+		coordinate = cam.ViewportToWorldPoint (viewPoint); 
+		print ("Final1: " + coordinate); 
+		coordinate = new Vector3 (coordinate.x, coordinate.y, coordinate.z);
+
+		return coordinate; 
 	} 
+		
+
 
 }
