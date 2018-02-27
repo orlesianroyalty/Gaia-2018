@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: f4f8e37d239830a4ea818a3fe5662fef
+timeCreated: 1519351595
+licenseType: Pro
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - fallingThing: {fileID: 1423957612497546, guid: acb6922455d508e419c1f573bb530d70,
+      type: 2}
+  - player: {instanceID: 0}
+  - cam: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

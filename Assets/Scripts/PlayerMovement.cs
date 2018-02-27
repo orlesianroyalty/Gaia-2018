@@ -7,24 +7,24 @@ public class PlayerMovement : MonoBehaviour {
 	public KeyCode jumpButton = KeyCode.Space;
 	public KeyCode dashButton = KeyCode.LeftShift;
 
-	public float speed;
+	public float speed = 5.5f;
 
 	//When the jump button is pressed, the player will launch up (y axis) with this minimum force (or x for dash)
-	public float initialJumpForce;
-	public float initialDashForce;
+	public float initialJumpForce = 7.2f;
+	public float initialDashForce = 7f;
 
 	//factor that the acceleration is multipled by to achieve variable jumps/dashes (100-200 is preferable for jumps)
-	public float jumpAccelerationFactor;
-	public float dashAccelerationFactor;
+	public float jumpAccelerationFactor = 300f;
+	public float dashAccelerationFactor = 370f;
 
 	public int dashStaminaCost = 20;
 	public int arcJumpStaminaCost = 25;
 
-	public float arcJumpForceX;
-	public float arcJumpForceY;
+	public float arcJumpForceX = 140f;
+	public float arcJumpForceY = 370f;
 
 	//cooldown values for the dash
-	public float dashMaxDurationTimeInSeconds;
+	public float dashMaxDurationTimeInSeconds = .4f;
 	private float dashStartTimeStamp;
 	private float dashEndTimeStamp;
 
