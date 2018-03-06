@@ -202,4 +202,6 @@ public class PlayerStats : MonoBehaviour {
 	public string getElementalType() {
 		return elementalType;
 	}
+
+   
 }
