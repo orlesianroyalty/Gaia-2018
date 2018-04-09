@@ -33,11 +33,11 @@ public class PlayerStats : MonoBehaviour {
 
 	void Start() {
 		hp = maxHp;
-		//stamina = maxStamina;
+		stamina = maxStamina;
 		healthbar = GameObject.Find ("Health Bar").GetComponent<Slider> ();
 		staminabar = GameObject.Find ("Stamina Bar").GetComponent<Slider> ();
 		InvokeRepeating ("regenTimer", 0f, .5f);
-		//updateStaminaUI ();
+		updateStaminaUI ();
 		scenename = SceneManager.GetActiveScene().name;
 
         grassShardsCollected = 0;
