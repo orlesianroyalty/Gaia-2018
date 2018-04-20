@@ -41,12 +41,14 @@ public class Abilities : MonoBehaviour {
 	public KeyCode frostKey = KeyCode.F;  
 	private int frostStamina = 2; 
 	public GameObject frost; 
+	private GameObject editedFrost; 
 	//for cooldown timer
 	private int frostDelay = 0;  
 
 	/*----------------------------------------------------------------------------------  */
 
 	void Start() { 
+		rotation = new Quaternion (0.0f, 0.0f, 45f, 0.0f);
 		pStats = gameObject.GetComponent<PlayerStats> (); 
 	} 
 
@@ -64,8 +66,7 @@ public class Abilities : MonoBehaviour {
 	 * 'razorleaf' object for this to work */
 	public void makeRazorLeaf() { 
 		if (Input.GetKeyDown (leafKey) 
-			&& leafDelay % 15 == 0) {  
-				rotation = new Quaternion (0.0f, 0.0f, 45f, 0.0f); 
+			&& leafDelay % 15 == 0) {   
 				Instantiate (razorLeaf, createLaunch(), rotation);
 				leafDelay++; 
 		} 
@@ -80,12 +81,12 @@ public class Abilities : MonoBehaviour {
 	 * 'fireball' object for this to work. (need to add useStamina) */
 	void makeFireball() { 
 		if (Input.GetKeyDown (fireKey) 
-			&& fireDelay % 25 == 0) {  
+			&& fireDelay % 35 == 0) {  
 				editedFireball = Instantiate (fireball, createLaunch(), Quaternion.identity);
 				editedFireball.transform.localScale = new Vector3 (0.5f, 0.5f, 0.5f);
 				fireDelay++; 
 		} 
-		if (fireDelay % 25 != 0) { 
+		if (fireDelay % 35 != 0) { 
 			fireDelay++; 
 		} 
 	} 
@@ -121,9 +122,11 @@ public class Abilities : MonoBehaviour {
 
 	/*frost breath */
 	void makeFrostBreath() { 
-		if (Input.GetKey (frostKey) && frostDelay % 8 == 0) { 
-			Instantiate (frost, createFrostLaunch (), Quaternion.identity); 
+		if (Input.GetKey (frostKey) && frostDelay % 7 == 0) { 
+			editedFrost = Instantiate (frost, createFrostLaunch (), frost.transform.rotation); 
+			editedFrost.transform.localScale = new Vector3 (0.2f, 0.2f, 0.2f); 
 		} 
+
 		frostDelay++; 
 	} 
 
@@ -167,7 +170,7 @@ public class Abilities : MonoBehaviour {
 	// creates launch point coordinates infront of character for FrostBreath
 	public Vector3 createFrostLaunch() {
 		float playerX; 
-		float playerY = gameObject.transform.position.y + 0.25f; 
+		float playerY = gameObject.transform.position.y + 0.55f; 
 		Vector3 launch;
 
 		if (!facingLeft ()) { 

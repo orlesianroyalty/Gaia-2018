@@ -19,12 +19,12 @@ public class ProjectileFrost : MonoBehaviour {
 	private float facing; 
 	private KeyCode frostKey; 
 	private Vector3 view, position; 
-	private float speed = 10f; 
+	private float speed = 12f; 
 	private float size, elapsedTime; 
 
 
 	void Start() {
-		size = 1f; 
+		size = 0.2f; 
 		elapsedTime = 0.0f; 
 		cam = Camera.main; 
 		player = GameObject.Find ("Player"); 
@@ -49,20 +49,20 @@ public class ProjectileFrost : MonoBehaviour {
 	//For debugging: most recent add: 3rd or statement in 3rd if statement
 	void shootFrost() {
 		if (Input.GetKey (frostKey)) {
-				if (size < 3.0f) { 
-					size += Time.deltaTime; 
+				if (size < 2.0f) { 
+					size += Time.deltaTime * 2.25f; 
 					gameObject.transform.localScale = new Vector3 (size, size, 0.2f); 
 			} 
 		}
 
 		//add an if collided w enemy statement
 		if ( facing > 0) { 
-			transform.Rotate ( -1 * Vector3.forward, 2000f * Time.deltaTime);  
+			//transform.Rotate ( -1 * Vector3.forward, 2000f * Time.deltaTime);  
 			transform.Translate (Vector3.right * speed * Time.deltaTime, relativeTo: Space.World);
 		} 
 
 		if ( facing < 0) { 
-			transform.Rotate ( -1 * Vector3.forward, 2000f * Time.deltaTime);  
+			//transform.Rotate ( -1 * Vector3.forward, 2000f * Time.deltaTime);  
 			transform.Translate (Vector3.left * speed * Time.deltaTime, relativeTo: Space.World); 
 		}
 	} 
@@ -89,7 +89,7 @@ public class ProjectileFrost : MonoBehaviour {
 			GameObject enemy = collider.gameObject; 
 			eStats = enemy.GetComponent<EnemyStats> (); 
 			eStats.damage (1, "NORMAL"); 
-			//estats.frozen = true; 
+			//estats.frozen = true; //variable needs to put in enemyStats script to know when enemy is hit by frostbreath
 		} 
 	}
 
